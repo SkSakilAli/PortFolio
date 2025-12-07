@@ -1,3 +1,4 @@
+/* --- Global Variables --- */
 :root {
     --bg-color: #1a1a1a;
     --text-color: #00ff00; /* Neon Green */
@@ -8,7 +9,7 @@
     --terminal-border: #444;
 }
 
-/* Basic Reset & Terminal Body */
+/* --- Base Styling (Applies to all screens) --- */
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
@@ -21,14 +22,16 @@ body {
     min-height: 100vh;
     font-size: 14px;
     line-height: 1.4;
-    text-shadow: 0 0 5px rgba(0, 255, 0, 0.4); /* subtle glow */
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.4);
+    box-sizing: border-box; /* Crucial for padding/width calculation */
 }
 
 /* Terminal Window Styling */
 #terminal {
     width: 90%;
     max-width: 800px;
-    min-height: 400px;
+    /* Use a viewport height unit for better scaling on mobile */
+    min-height: 70vh; 
     background-color: var(--terminal-bg);
     border: 1px solid var(--terminal-border);
     border-radius: 8px;
@@ -69,10 +72,11 @@ body {
 /* Content Area */
 #main-content {
     padding: 15px;
-    overflow-y: auto; /* Allows scrolling if content exceeds height */
+    overflow-y: auto;
+    height: calc(70vh - 40px); /* Adjust height for terminal header and padding */
 }
 
-/* Prompt and Input Styling (Used for simulated command lines) */
+/* Prompt Styling */
 .prompt-line {
     display: flex;
     align-items: baseline;
@@ -82,7 +86,6 @@ body {
 .prompt-prefix {
     color: var(--prompt-color);
     margin-right: 8px;
-    /* Prevent prefix from being wrapped */
     white-space: nowrap; 
 }
 
@@ -91,16 +94,18 @@ body {
     margin: 10px 0;
 }
 
-/* Ensure pre and lists/headers within output look clean */
 .output pre {
+    /* Use word-break for long lines in code blocks/ls output on small screens */
+    white-space: pre-wrap;
+    word-break: break-all; 
     margin: 5px 0 10px 15px;
-    color: #00e000; /* Slightly darker green for system files */
+    color: #00e000;
 }
 
 .output h3 {
     margin-top: 15px;
     margin-bottom: 5px;
-    color: #fff; /* White or lighter color for heading visibility */
+    color: #fff;
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
     font-size: 1.1em;
 }
@@ -108,6 +113,8 @@ body {
 .output ul, .output p {
     margin: 5px 0;
     padding-left: 15px;
+    /* Ensure content wraps inside the terminal box */
+    word-wrap: break-word; 
 }
 
 /* Link Styling */
@@ -122,7 +129,7 @@ body {
     text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
 }
 
-/* Hide the temporary blinking cursor during the typing sequence */
+/* Cursor and Typing Effects */
 .cursor {
     animation: blink 1s step-end infinite;
     display: inline-block;
@@ -138,8 +145,50 @@ body {
     50% { opacity: 0.0; }
 }
 
-/* Style for text being typed in real-time */
 .typing-text {
     white-space: pre-wrap;
     display: inline;
+}
+
+/* ---------------------------------------------------- */
+/* --- Responsive Adjustments (Media Queries) --- */
+/* ---------------------------------------------------- */
+
+/* Targets screens smaller than 600px (standard mobile portrait) */
+@media (max-width: 600px) {
+    
+    /* Make the terminal take up almost the entire screen */
+    body {
+        padding: 10px;
+    }
+    
+    #terminal {
+        width: 100%;
+        max-width: none;
+        min-height: 95vh; /* Use most of the viewport height */
+        border-radius: 0; /* Remove border radius for full screen effect */
+    }
+
+    /* Adjust font size to fit more content on small screens */
+    body, .output p, .output ul li {
+        font-size: 12px;
+        line-height: 1.5;
+    }
+    
+    .title {
+        /* Hide the long bash title on small screens */
+        display: none; 
+    }
+
+    /* Reduce content padding */
+    #main-content {
+        padding: 10px;
+        height: calc(95vh - 35px); /* Adjusted height calculation */
+    }
+    
+    /* Decrease header dot size */
+    .dot {
+        height: 8px;
+        width: 8px;
+    }
 }
