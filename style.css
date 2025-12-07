@@ -1,0 +1,145 @@
+:root {
+    --bg-color: #1a1a1a;
+    --text-color: #00ff00; /* Neon Green */
+    --link-color: #ffd700; /* Gold/Yellow for links */
+    --prompt-color: #1ed1f8; /* Cyan color for the prefix */
+    --font-family: 'Fira Code', 'Roboto Mono', monospace;
+    --terminal-bg: #222;
+    --terminal-border: #444;
+}
+
+/* Basic Reset & Terminal Body */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.4;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.4); /* subtle glow */
+}
+
+/* Terminal Window Styling */
+#terminal {
+    width: 90%;
+    max-width: 800px;
+    min-height: 400px;
+    background-color: var(--terminal-bg);
+    border: 1px solid var(--terminal-border);
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 255, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Header (Window Controls) */
+#terminal-header {
+    background-color: #333;
+    padding: 8px 15px;
+    border-bottom: 1px solid var(--terminal-border);
+    display: flex;
+    align-items: center;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.dot {
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+    opacity: 0.7;
+}
+
+.red { background-color: #ff5f56; }
+.yellow { background-color: #ffbd2e; }
+.green { background-color: #27c93f; }
+
+.title {
+    color: #ccc;
+    font-size: 13px;
+    margin-left: 10px;
+}
+
+/* Content Area */
+#main-content {
+    padding: 15px;
+    overflow-y: auto; /* Allows scrolling if content exceeds height */
+}
+
+/* Prompt and Input Styling (Used for simulated command lines) */
+.prompt-line {
+    display: flex;
+    align-items: baseline;
+    margin-top: 5px;
+}
+
+.prompt-prefix {
+    color: var(--prompt-color);
+    margin-right: 8px;
+    /* Prevent prefix from being wrapped */
+    white-space: nowrap; 
+}
+
+/* Output Styling */
+.output {
+    margin: 10px 0;
+}
+
+/* Ensure pre and lists/headers within output look clean */
+.output pre {
+    margin: 5px 0 10px 15px;
+    color: #00e000; /* Slightly darker green for system files */
+}
+
+.output h3 {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    color: #fff; /* White or lighter color for heading visibility */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+    font-size: 1.1em;
+}
+
+.output ul, .output p {
+    margin: 5px 0;
+    padding-left: 15px;
+}
+
+/* Link Styling */
+.output a {
+    color: var(--link-color);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.output a:hover {
+    text-decoration: underline;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
+
+/* Hide the temporary blinking cursor during the typing sequence */
+.cursor {
+    animation: blink 1s step-end infinite;
+    display: inline-block;
+    width: 8px;
+    height: 1em;
+    background-color: var(--text-color);
+    margin-left: 2px;
+    vertical-align: middle;
+}
+
+@keyframes blink {
+    from, to { opacity: 1.0; }
+    50% { opacity: 0.0; }
+}
+
+/* Style for text being typed in real-time */
+.typing-text {
+    white-space: pre-wrap;
+    display: inline;
+}
